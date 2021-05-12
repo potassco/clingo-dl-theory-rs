@@ -35,13 +35,13 @@ pub type clingo_ast_t = clingo_ast;
 // }
 // #[doc = "! Control object holding grounding and solving state."]
 // pub type clingo_control_t = clingo_control;
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct clingo_options {
-    _unused: [u8; 0],
-}
-#[doc = "! Object to add command-line options."]
-pub type clingo_options_t = clingo_options;
+// #[repr(C)]
+// #[derive(Debug, Copy, Clone)]
+// pub struct clingo_options {
+//     _unused: [u8; 0],
+// }
+// #[doc = "! Object to add command-line options."]
+// pub type clingo_options_t = clingo_options;
 pub type clingodl_value_type_t = ::std::os::raw::c_int;
 #[repr(C)]
 #[derive(Copy, Clone)]
