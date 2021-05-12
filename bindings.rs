@@ -21,13 +21,13 @@ pub type clingo_symbol_t = u64;
 // }
 // #[doc = "! Object representing a model."]
 // pub type clingo_model_t = clingo_model;
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct clingo_ast {
-    _unused: [u8; 0],
-}
-#[doc = "! This struct provides a view to nodes in the AST."]
-pub type clingo_ast_t = clingo_ast;
+// #[repr(C)]
+// #[derive(Debug, Copy, Clone)]
+// pub struct clingo_ast {
+//     _unused: [u8; 0],
+// }
+// #[doc = "! This struct provides a view to nodes in the AST."]
+// pub type clingo_ast_t = clingo_ast;
 // #[repr(C)]
 // #[derive(Debug, Copy, Clone)]
 // pub struct clingo_control {
