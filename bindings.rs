@@ -14,13 +14,13 @@ pub struct clingo_statistic {
 }
 #[doc = "! Handle for the solver statistics."]
 pub type clingo_statistics_t = clingo_statistic;
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct clingo_model {
-    _unused: [u8; 0],
-}
-#[doc = "! Object representing a model."]
-pub type clingo_model_t = clingo_model;
+// #[repr(C)]
+// #[derive(Debug, Copy, Clone)]
+// pub struct clingo_model {
+//     _unused: [u8; 0],
+// }
+// #[doc = "! Object representing a model."]
+// pub type clingo_model_t = clingo_model;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct clingo_ast {
