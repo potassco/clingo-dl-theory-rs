@@ -1,11 +1,13 @@
 use std::env;
 fn main() {
-    // update clingo-dl submodule
-    // git submodule update --init --recursive
+    // checkout clingo-dl
+    // git clone https://github.com/potassco/clingo-dl
+    // cd clingo-dl
+    // git checkout v1.2.0
+    // copy clingo.h
 
     // // Configure and generate bindings.
-    // let bindings = builder()
-    //     .clang_arg("-Iclingo/libclingo")
+    // let bindings = bindgen::Builder::default()
     //     .header("clingo-dl/libclingo-dl/clingo-dl.h")
     //     .whitelist_type("clingodl_theory_t")
     //     .whitelist_function("clingodl_create")
@@ -31,7 +33,7 @@ fn main() {
     // // Write the generated bindings to an output file.
     // bindings.write_to_file("bindings.rs").unwrap();
 
-    // if cfg!(feature = "static_linking") {
+    // if cfg!(feature = "static-linking") {
     //     // build clingo for static linking
     //     use cmake::Config;
     //     let dst = Config::new("clingo-dl")
@@ -59,9 +61,9 @@ fn main() {
     //         println!("cargo:rustc-link-lib=dylib=c++");
     //     }
     // } else {
-        let path =
-            env::var("CLINGO_DL_LIBRARY_PATH").expect("$CLINGO_DL_LIBRARY_PATH should be defined");
-        println!("cargo:rustc-link-search=native={}", path);
-        println!("cargo:rustc-link-lib=dylib=clingo-dl");
+    let path =
+        env::var("CLINGO_DL_LIBRARY_PATH").expect("$CLINGO_DL_LIBRARY_PATH should be defined");
+    println!("cargo:rustc-link-search=native={}", path);
+    println!("cargo:rustc-link-lib=dylib=clingo-dl");
     // }
 }
