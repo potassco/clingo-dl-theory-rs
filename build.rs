@@ -13,7 +13,7 @@ fn main() {
     //     .whitelist_function("clingodl_create")
     //     .whitelist_function("clingodl_destroy")
     //     .whitelist_function("clingodl_register")
-    //     .whitelist_function("clingodl_rewrite_statement")
+    //     .whitelist_function("clingodl_rewrite_ast")
     //     .whitelist_function("clingodl_prepare")
     //     .whitelist_function("clingodl_register_options")
     //     .whitelist_function("clingodl_validate_options")

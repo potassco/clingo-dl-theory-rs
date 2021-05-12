@@ -23,6 +23,13 @@ pub struct clingo_model {
 pub type clingo_model_t = clingo_model;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
+pub struct clingo_ast {
+    _unused: [u8; 0],
+}
+#[doc = "! This struct provides a view to nodes in the AST."]
+pub type clingo_ast_t = clingo_ast;
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
 pub struct clingo_control {
     _unused: [u8; 0],
 }
@@ -124,6 +131,10 @@ fn bindgen_test_layout_clingodl_value() {
     );
 }
 pub type clingodl_value_t = clingodl_value;
+#[doc = "! Callback to rewrite statements (see ::clingodl_rewrite_ast)."]
+pub type clingodl_ast_callback_t = ::std::option::Option<
+    unsafe extern "C" fn(ast: *mut clingo_ast_t, data: *mut ::std::os::raw::c_void) -> bool,
+>;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct clingodl_theory {
@@ -139,6 +150,15 @@ extern "C" {
     pub fn clingodl_register(
         theory: *mut clingodl_theory_t,
         control: *mut clingo_control_t,
+    ) -> bool;
+}
+extern "C" {
+    #[doc = "! Rewrite asts before adding them via the given callback."]
+    pub fn clingodl_rewrite_ast(
+        theory: *mut clingodl_theory_t,
+        ast: *mut clingo_ast_t,
+        add: clingodl_ast_callback_t,
+        data: *mut ::std::os::raw::c_void,
     ) -> bool;
 }
 extern "C" {
