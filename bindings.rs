@@ -7,13 +7,13 @@ pub type __uint64_t = ::std::os::raw::c_ulong;
 #[doc = "! This includes numbers, strings, functions (including constants when"]
 #[doc = "! arguments are empty and tuples when the name is empty), <tt>\\#inf</tt> and <tt>\\#sup</tt>."]
 pub type clingo_symbol_t = u64;
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct clingo_statistic {
-    _unused: [u8; 0],
-}
-#[doc = "! Handle for the solver statistics."]
-pub type clingo_statistics_t = clingo_statistic;
+// #[repr(C)]
+// #[derive(Debug, Copy, Clone)]
+// pub struct clingo_statistic {
+//     _unused: [u8; 0],
+// }
+// #[doc = "! Handle for the solver statistics."]
+// pub type clingo_statistics_t = clingo_statistic;
 // #[repr(C)]
 // #[derive(Debug, Copy, Clone)]
 // pub struct clingo_model {
