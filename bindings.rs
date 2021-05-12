@@ -133,7 +133,7 @@ fn bindgen_test_layout_clingodl_value() {
 pub type clingodl_value_t = clingodl_value;
 #[doc = "! Callback to rewrite statements (see ::clingodl_rewrite_ast)."]
 pub type clingodl_ast_callback_t = ::std::option::Option<
-    unsafe extern "C" fn(ast: *mut clingo_ast_t, data: *mut ::std::os::raw::c_void) -> bool,
+    unsafe extern "C" fn(ast: *const clingo_ast_t, data: *mut ::std::os::raw::c_void) -> bool,
 >;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
