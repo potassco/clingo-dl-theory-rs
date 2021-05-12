@@ -28,13 +28,13 @@ pub struct clingo_ast {
 }
 #[doc = "! This struct provides a view to nodes in the AST."]
 pub type clingo_ast_t = clingo_ast;
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct clingo_control {
-    _unused: [u8; 0],
-}
-#[doc = "! Control object holding grounding and solving state."]
-pub type clingo_control_t = clingo_control;
+// #[repr(C)]
+// #[derive(Debug, Copy, Clone)]
+// pub struct clingo_control {
+//     _unused: [u8; 0],
+// }
+// #[doc = "! Control object holding grounding and solving state."]
+// pub type clingo_control_t = clingo_control;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct clingo_options {
