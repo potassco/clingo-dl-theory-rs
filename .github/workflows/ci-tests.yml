@@ -13,8 +13,10 @@ jobs:
       - name: Build
         run: |
           export CLINGO_LIBRARY_PATH=/usr/share/miniconda/envs/test/lib
+          export CLINGO_DL_LIBRARY_PATH=/usr/share/miniconda/envs/test/lib
           cargo build --verbose
       - name: Run tests
         run: |
           export CLINGO_LIBRARY_PATH=/usr/share/miniconda/envs/test/lib
+          export CLINGO_DL_LIBRARY_PATH=/usr/share/miniconda/envs/test/lib
           cargo test --verbose
