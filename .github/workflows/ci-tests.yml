@@ -15,6 +15,7 @@ jobs:
           auto-update-conda: true
           python-version: ${{ matrix.python-version }}
       - name: Conda install clingo
+        shell: bash -l {0}
         run: |
           conda install -c potassco clingo=5.5.0
           conda install -c potassco clingo-dl=1.2.0
@@ -27,4 +28,5 @@ jobs:
         run: |
           export CLINGO_LIBRARY_PATH=/usr/share/miniconda/envs/test/lib
           export CLINGO_DL_LIBRARY_PATH=/usr/share/miniconda/envs/test/lib
+          export LD_LIBRARY_PATH=/usr/share/miniconda/envs/test/lib
           cargo test --verbose
