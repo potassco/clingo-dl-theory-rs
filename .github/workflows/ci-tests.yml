@@ -9,7 +9,15 @@ jobs:
       matrix:
         os: [ubuntu-latest]
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          python-version: ${{ matrix.python-version }}
+      - name: Conda install clingo
+        run: |
+          conda install -c potassco clingo=5.5.0
+          conda install -c potassco clingo-dl=1.2.0
       - name: Build
         run: |
           export CLINGO_LIBRARY_PATH=/usr/share/miniconda/envs/test/lib
