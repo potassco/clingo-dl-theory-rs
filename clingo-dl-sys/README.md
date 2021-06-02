@@ -8,10 +8,3 @@ You have to define the environment variable `CLINGO_DL_LIBRARY_PATH` for example
 ```sh
 export CLINGO_DL_LIBRARY_PATH=/scratch/miniconda3/envs/clingo-dl/lib
 ```
-
-The recommended way to use the clingo-dl-sys crate is.
-
-```toml
-[dependencies]
-clingo-dl-sys = { git = "https://github.com/potassco/clingo-dl-sys", branch = "master"}
-```

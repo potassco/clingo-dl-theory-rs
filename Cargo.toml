@@ -1,28 +1,5 @@
-[package]
-name = "clingo-dl-sys"
-version = "0.6.2"
-authors = ["sthiele <sthiele78@gmail.com>"]
-edition = "2018"
-description = "Raw FFI bindings to the C API of the clingo-dl library"
-categories = ["external-ffi-bindings"]
-build = "build.rs"
-links = "clingo-dl"
-license = "MIT"
-repository = "https://github.com/potassco/clingo-sys"
-documentation = "https://docs.rs/clingo-sys"
-readme = "README.md"
-
-# [features]
-# static-linking = []
-
-[lib]
-name = "clingo_dl_sys"
-path = "lib.rs"
-
-[dependencies]
-libc = "0.2"
-clingo-sys = { git = "https://github.com/potassco/clingo-sys", branch="st/wip" }
-
-[build-dependencies]
-cmake = "0.1"
-# bindgen = "0.57"
+[workspace]
+members = [
+	"clingo-dl-sys",
+	"clingo-dl-plugin",
+] 
