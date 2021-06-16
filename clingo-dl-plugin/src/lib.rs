@@ -7,7 +7,7 @@ use clingo::{
     FunctionHandler, GenericControl, GroundProgramObserver, Id, Logger, Model, Options, Propagator,
     Statistics, Symbol,
 };
-use clingo_sys::{clingo_ast, clingo_control};
+use clingo_sys::clingo_control;
 use std::ptr::NonNull;
 
 #[derive(Debug)]
@@ -156,8 +156,8 @@ impl<'a> Theory<'a> for DLTheory {
                     new_body.push(rewrite_body_literal(bl));
                 }
                 // initialize the rule
-                let mut head = rule.head().clone();
-                let new_head = rewrite_head(&mut head);
+                let head = rule.head();
+                let new_head = rewrite_head(head);
                 let rule = ast::rule(&loc, new_head, &new_body).unwrap();
                 eprintln!("new rule {}", rule);
 
@@ -237,9 +237,8 @@ enum Marker {
     Head,
     Body,
 }
-fn rewrite_head<'a>(head: &mut ast::Head<'a>) -> ast::Head<'a> {
-    let head_clone = head.clone();
-    match head_clone.is_a().unwrap() {
+fn rewrite_head(head: ast::Head) -> ast::Head {
+    match head.is_a().unwrap() {
         ast::HeadIsA::TheoryAtom(theory_atom) => {
             rewrite_theory_atom(theory_atom, Marker::Head).into()
         }
@@ -250,9 +249,8 @@ fn rewrite_head<'a>(head: &mut ast::Head<'a>) -> ast::Head<'a> {
         ast::HeadIsA::Disjunction(disjunction) => disjunction.into(),
     }
 }
-fn rewrite_body_literal<'a>(bl: ast::BodyLiteral<'a>) -> ast::BodyLiteral<'a> {
-    let bl_clone = bl.clone();
-    match bl_clone.is_a().unwrap() {
+fn rewrite_body_literal(bl: ast::BodyLiteral) -> ast::BodyLiteral {
+    match bl.is_a().unwrap() {
         ast::BodyLiteralIsA::CspLiteral(csp_literal) => csp_literal.into(),
         ast::BodyLiteralIsA::Literal(literal) => literal.into(),
         ast::BodyLiteralIsA::ConditionalLiteral(cond_literal) => cond_literal.into(),
@@ -292,10 +290,10 @@ fn rewrite_theory_atom(ta: ast::TheoryAtom, marker: Marker) -> ast::TheoryAtom {
     ta_clone
 }
 
-unsafe extern "C" fn unsafe_program_builder_add(
-    statement: *const clingo_sys::clingo_ast_t,
-    data: *mut ::std::os::raw::c_void,
-) -> bool {
-    let builder = data as *mut clingo_sys::clingo_program_builder;
-    clingo_sys::clingo_program_builder_add(builder, statement)
-}
+// unsafe extern "C" fn unsafe_program_builder_add(
+//     statement: *const clingo_sys::clingo_ast_t,
+//     data: *mut ::std::os::raw::c_void,
+// ) -> bool {
+//     let builder = data as *mut clingo_sys::clingo_program_builder;
+//     clingo_sys::clingo_program_builder_add(builder, statement)
+// }
