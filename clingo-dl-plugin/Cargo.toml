@@ -1,6 +1,6 @@
 [package]
 name = "clingo-dl-plugin"
-version = "0.1.0"
+version = "0.0.0"
 authors = ["Sven Thiele <sthiel78@gmail.com>"]
 description = "A clingo theory plugin for difference logic."
 edition = "2018"
@@ -9,8 +9,8 @@ repository = "https://github.com/potassco/clingo-dl-sys"
 # documentation = "https://docs.rs/clingo-dl-plugin"
 
 [dependencies]
-clingo = { version = "0.7.0-beta.1", git = "https://github.com/potassco/clingo-rs", branch = "st/ast" }
-clingo-sys = { git = "https://github.com/potassco/clingo-sys", branch="st/wip" }
+clingo = "0.7.0"
+clingo-sys = "0.7.0"
 clingo-dl-sys = { path = "../clingo-dl-sys"}
 
 [lib]

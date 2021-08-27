@@ -1,6 +1,6 @@
 [package]
 name = "clingo-dl-sys"
-version = "0.6.2"
+version = "0.0.0"
 authors = ["sthiele <sthiele78@gmail.com>"]
 edition = "2018"
 description = "Raw FFI bindings to the C API of the clingo-dl library"
@@ -21,7 +21,7 @@ path = "lib.rs"
 
 [dependencies]
 libc = "0.2"
-clingo-sys = { git = "https://github.com/potassco/clingo-sys", branch="st/wip" }
+clingo-sys = "0.7.0"
 
 [build-dependencies]
 cmake = "0.1"

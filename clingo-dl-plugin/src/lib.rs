@@ -7,7 +7,7 @@ use clingo::{
     FunctionHandler, GenericControl, GroundProgramObserver, Id, Logger, Model, Options, Propagator,
     Statistics, Symbol,
 };
-use clingo_sys::{clingo_ast, clingo_control};
+use clingo_sys::clingo_control;
 use std::ptr::NonNull;
 
 #[derive(Debug)]
@@ -123,23 +123,59 @@ impl<'a> Theory<'a> for DLTheory {
         unsafe { clingo_dl_sys::clingodl_register(self.theory.as_ptr(), nn.as_ptr()) }
     }
     /// Rewrite statements before adding them via the given callback.
+    // fn rewrite_statement(
+    //     &mut self,
+    //     stmt: &ast::Statement,
+    //     builder: &mut ast::ProgramBuilder,
+    // ) -> bool {
+    //     let add = unsafe_program_builder_add;
+    //     let nn: NonNull<clingo_ast> = stmt.into();
+    //     let pb: *mut clingo_sys::clingo_program_builder = builder.into();
+    //     unsafe {
+    //         clingo_dl_sys::clingodl_rewrite_ast(
+    //             self.theory.as_ptr(),
+    //             nn.as_ptr(),
+    //             Some(add),
+    //             pb as *mut ::std::os::raw::c_void,
+    //         )
+    //     }
+    // }
+    /// adds head/body marker to `&diff` theory atoms
     fn rewrite_statement(
         &mut self,
-        stmt: &ast::Statement,
+        stm: &ast::Statement,
         builder: &mut ast::ProgramBuilder,
     ) -> bool {
-        let add = unsafe_program_builder_add;
-        let nn: NonNull<clingo_ast> = stmt.into();
-        let pb: *mut clingo_sys::clingo_program_builder = builder.into();
-        unsafe {
-            clingo_dl_sys::clingodl_rewrite_ast(
-                self.theory.as_ptr(),
-                nn.as_ptr(),
-                Some(add),
-                pb as *mut ::std::os::raw::c_void,
-            )
+        let stm_clone = stm.clone();
+        match stm_clone.is_a().unwrap() {
+            ast::StatementIsA::Rule(rule) => {
+                let loc = rule.location();
+                let body = rule.body();
+                let mut new_body = vec![];
+                for bl in body {
+                    new_body.push(rewrite_body_literal(bl));
+                }
+                // initialize the rule
+                let head = rule.head();
+                let new_head = rewrite_head(head);
+                let rule = ast::rule(&loc, new_head, &new_body).unwrap();
+                eprintln!("new rule {}", rule);
+
+                // add the rewritten rule to the program builder
+                builder
+                    .add(&rule.into())
+                    .expect("Failed to add Rule to ProgramBuilder.");
+            }
+            _ => {
+                // pass through all statements that are not rules
+                builder
+                    .add(&stm)
+                    .expect("Failed to add Statement to ProgramBuilder.");
+            }
         }
+        true
     }
+
     /// prepare the theory between grounding and solving
     fn prepare<L, P, O, F>(&mut self, ctl: &mut GenericControl<L, P, O, F>) -> bool
     where
@@ -195,10 +231,69 @@ impl<'a> Theory<'a> for DLTheory {
         }
     }
 }
-unsafe extern "C" fn unsafe_program_builder_add(
-    statement: *const clingo_sys::clingo_ast_t,
-    data: *mut ::std::os::raw::c_void,
-) -> bool {
-    let builder = data as *mut clingo_sys::clingo_program_builder;
-    clingo_sys::clingo_program_builder_add(builder, statement)
+
+#[derive(Debug, Clone, Copy)]
+enum Marker {
+    Head,
+    Body,
 }
+fn rewrite_head(head: ast::Head) -> ast::Head {
+    match head.is_a().unwrap() {
+        ast::HeadIsA::TheoryAtom(theory_atom) => {
+            rewrite_theory_atom(theory_atom, Marker::Head).into()
+        }
+
+        ast::HeadIsA::Literal(literal) => literal.into(),
+        ast::HeadIsA::Aggregate(aggregate) => aggregate.into(),
+        ast::HeadIsA::HeadAggregate(head_aggregate) => head_aggregate.into(),
+        ast::HeadIsA::Disjunction(disjunction) => disjunction.into(),
+    }
+}
+fn rewrite_body_literal(bl: ast::BodyLiteral) -> ast::BodyLiteral {
+    match bl.is_a().unwrap() {
+        ast::BodyLiteralIsA::CspLiteral(csp_literal) => csp_literal.into(),
+        ast::BodyLiteralIsA::Literal(literal) => literal.into(),
+        ast::BodyLiteralIsA::ConditionalLiteral(cond_literal) => cond_literal.into(),
+        ast::BodyLiteralIsA::TheoryAtom(theory_atom) => {
+            rewrite_theory_atom(theory_atom, Marker::Body).into()
+        }
+    }
+}
+fn rewrite_theory_atom(ta: ast::TheoryAtom, marker: Marker) -> ast::TheoryAtom {
+    let mut ta_clone = ta.clone();
+    let term = ta.term();
+    let term_location = term.location();
+    match term.is_a().unwrap() {
+        ast::TermIsA::Function(function) => {
+            let name = function.name();
+            if name == "diff" {
+                match marker {
+                    Marker::Body => {
+                        let new_term =
+                            ast::function(&term_location, &"__diff_b", &[], false).unwrap();
+                        eprintln!("new term(function): {}", new_term.to_string().unwrap());
+                        ta_clone.set_term(new_term.into());
+                        eprintln!("new TheoryAtom: {:?}", ta_clone);
+                    }
+                    Marker::Head => {
+                        let new_term =
+                            ast::function(&term_location, &"__diff_h", &[], false).unwrap();
+                        eprintln!("new term(function): {}", new_term.to_string().unwrap());
+                        ta_clone.set_term(new_term.into());
+                        eprintln!("new TheoryAtom: {:?}", ta_clone);
+                    }
+                }
+            }
+        }
+        x => panic!("Unexpected variant {:?}", x),
+    }
+    ta_clone
+}
+
+// unsafe extern "C" fn unsafe_program_builder_add(
+//     statement: *const clingo_sys::clingo_ast_t,
+//     data: *mut ::std::os::raw::c_void,
+// ) -> bool {
+//     let builder = data as *mut clingo_sys::clingo_program_builder;
+//     clingo_sys::clingo_program_builder_add(builder, statement)
+// }
