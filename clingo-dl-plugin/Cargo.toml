@@ -9,7 +9,7 @@ repository = "https://github.com/potassco/clingo-dl-sys"
 # documentation = "https://docs.rs/clingo-dl-plugin"
 
 [dependencies]
-clingo = { version = "0.7.0", git = "https://github.com/potassco/clingo-rs", branch = "master" }
+clingo = "0.7.0"
 clingo-sys = "0.7.0"
 clingo-dl-sys = { path = "../clingo-dl-sys"}
 
