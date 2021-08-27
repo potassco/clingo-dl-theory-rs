@@ -21,7 +21,7 @@ path = "lib.rs"
 
 [dependencies]
 libc = "0.2"
-clingo-sys = { git = "https://github.com/potassco/clingo-sys", branch="st/wip" }
+clingo-sys = "0.7.0"
 
 [build-dependencies]
 cmake = "0.1"
