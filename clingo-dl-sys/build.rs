@@ -3,29 +3,29 @@ fn main() {
     // checkout clingo-dl
     // git clone https://github.com/potassco/clingo-dl
     // cd clingo-dl
-    // git checkout v1.2.0
+    // git checkout v1.4.0
     // copy clingo.h
 
     // // Configure and generate bindings.
     // let bindings = bindgen::Builder::default()
     //     .header("clingo-dl/libclingo-dl/clingo-dl.h")
-    //     .whitelist_type("clingodl_theory_t")
-    //     .whitelist_function("clingodl_create")
-    //     .whitelist_function("clingodl_destroy")
-    //     .whitelist_function("clingodl_register")
-    //     .whitelist_function("clingodl_rewrite_ast")
-    //     .whitelist_function("clingodl_prepare")
-    //     .whitelist_function("clingodl_register_options")
-    //     .whitelist_function("clingodl_validate_options")
-    //     .whitelist_function("clingodl_on_model")
-    //     .whitelist_function("clingodl_on_statistics")
-    //     .whitelist_function("clingodl_lookup_symbol")
-    //     .whitelist_function("clingodl_get_symbol")
-    //     .whitelist_function("clingodl_assignment_begin")
-    //     .whitelist_function("clingodl_assignment_next")
-    //     .whitelist_function("clingodl_assignment_has_value")
-    //     .whitelist_function("clingodl_assignment_get_value")
-    //     .whitelist_function("clingodl_configure")
+    //     .allowlist_type("clingodl_theory_t")
+    //     .allowlist_function("clingodl_create")
+    //     .allowlist_function("clingodl_destroy")
+    //     .allowlist_function("clingodl_register")
+    //     .allowlist_function("clingodl_rewrite_ast")
+    //     .allowlist_function("clingodl_prepare")
+    //     .allowlist_function("clingodl_register_options")
+    //     .allowlist_function("clingodl_validate_options")
+    //     .allowlist_function("clingodl_on_model")
+    //     .allowlist_function("clingodl_on_statistics")
+    //     .allowlist_function("clingodl_lookup_symbol")
+    //     .allowlist_function("clingodl_get_symbol")
+    //     .allowlist_function("clingodl_assignment_begin")
+    //     .allowlist_function("clingodl_assignment_next")
+    //     .allowlist_function("clingodl_assignment_has_value")
+    //     .allowlist_function("clingodl_assignment_get_value")
+    //     .allowlist_function("clingodl_configure")
     //     .size_t_is_usize(true)
     //     .generate()
     //     .unwrap();
