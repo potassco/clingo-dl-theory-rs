@@ -263,16 +263,16 @@ fn rewrite_theory_atom(ta: ast::TheoryAtom, marker: Marker) -> ast::TheoryAtom {
                     Marker::Body => {
                         let new_term =
                             ast::function(&term_location, &"__diff_b", &[], false).unwrap();
-                        eprintln!("new term(function): {}", new_term.to_string().unwrap());
+                        // eprintln!("new term(function): {}", new_term.to_string().unwrap());
                         ta_clone.set_term(new_term.into());
-                        eprintln!("new TheoryAtom: {:?}", ta_clone);
+                        // eprintln!("new TheoryAtom: {:?}", ta_clone);
                     }
                     Marker::Head => {
                         let new_term =
                             ast::function(&term_location, &"__diff_h", &[], false).unwrap();
-                        eprintln!("new term(function): {}", new_term.to_string().unwrap());
+                        // eprintln!("new term(function): {}", new_term.to_string().unwrap());
                         ta_clone.set_term(new_term.into());
-                        eprintln!("new TheoryAtom: {:?}", ta_clone);
+                        // eprintln!("new TheoryAtom: {:?}", ta_clone);
                     }
                 }
             }
