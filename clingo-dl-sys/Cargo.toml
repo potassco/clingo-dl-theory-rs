@@ -21,7 +21,7 @@ path = "lib.rs"
 
 [dependencies]
 libc = "0.2"
-clingo-sys = "0.7.0"
+clingo-sys = "=0.7.2"
 
 [build-dependencies]
 cmake = "0.1"

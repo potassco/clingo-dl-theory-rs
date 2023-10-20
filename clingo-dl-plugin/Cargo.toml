@@ -9,9 +9,9 @@ repository = "https://github.com/potassco/clingo-dl-sys"
 # documentation = "https://docs.rs/clingo-dl-plugin"
 
 [dependencies]
-clingo = "0.7.0"
-clingo-sys = "0.7.0"
-clingo-dl-sys = { path = "../clingo-dl-sys"}
+clingo = { git = "https://github.com/potassco/clingo-rs.git", branch = "st/wip" }
+clingo-sys = "=0.7.2"
+clingo-dl-sys = { path = "../clingo-dl-sys" }
 
 [lib]
-crate-type = ["cdylib", "rlib"] 
+crate-type = ["cdylib", "rlib"]

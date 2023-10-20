@@ -2,7 +2,6 @@
 
 Rust raw FFI bindings to the C API of [clingo-dl](https://github.com/potassco/clingo-dl) library.
 
-
 You have to define the environment variable `CLINGO_DL_LIBRARY_PATH` for example:
 
 ```sh

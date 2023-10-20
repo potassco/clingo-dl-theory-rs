@@ -1,11 +1,10 @@
 extern crate clingo;
 extern crate clingo_dl_sys;
 extern crate clingo_sys;
-use clingo::ast;
-use clingo::theory::{Theory, TheoryValue};
 use clingo::{
-    FunctionHandler, GenericControl, GroundProgramObserver, Id, Logger, Model, Options, Propagator,
-    Statistics, Symbol,
+    ast,
+    theory::{Theory, TheoryValue},
+    ControlCtx, GenericControl, Id, Model, Options, Statistics, Symbol,
 };
 use clingo_sys::clingo_control;
 use std::ptr::NonNull;
@@ -112,12 +111,9 @@ impl<'a> Theory<'a> for DLTheory {
         })
     }
     /// registers the theory with the control
-    fn register<L, P, O, F>(&mut self, ctl: &mut GenericControl<L, P, O, F>) -> bool
+    fn register<Ctx>(&mut self, ctl: &mut GenericControl<Ctx>) -> bool
     where
-        L: Logger,
-        P: Propagator,
-        O: GroundProgramObserver,
-        F: FunctionHandler,
+        Ctx: ControlCtx,
     {
         let nn: NonNull<clingo_control> = ctl.into();
         unsafe { clingo_dl_sys::clingodl_register(self.theory.as_ptr(), nn.as_ptr()) }
@@ -177,12 +173,9 @@ impl<'a> Theory<'a> for DLTheory {
     }
 
     /// prepare the theory between grounding and solving
-    fn prepare<L, P, O, F>(&mut self, ctl: &mut GenericControl<L, P, O, F>) -> bool
+    fn prepare<Ctx>(&mut self, ctl: &mut GenericControl<Ctx>) -> bool
     where
-        L: Logger,
-        P: Propagator,
-        O: GroundProgramObserver,
-        F: FunctionHandler,
+        Ctx: ControlCtx,
     {
         let nn: NonNull<clingo_control> = ctl.into();
         unsafe { clingo_dl_sys::clingodl_prepare(self.theory.as_ptr(), nn.as_ptr()) }
@@ -251,7 +244,6 @@ fn rewrite_head(head: ast::Head) -> ast::Head {
 }
 fn rewrite_body_literal(bl: ast::BodyLiteral) -> ast::BodyLiteral {
     match bl.is_a().unwrap() {
-        ast::BodyLiteralIsA::CspLiteral(csp_literal) => csp_literal.into(),
         ast::BodyLiteralIsA::Literal(literal) => literal.into(),
         ast::BodyLiteralIsA::ConditionalLiteral(cond_literal) => cond_literal.into(),
         ast::BodyLiteralIsA::TheoryAtom(theory_atom) => {
