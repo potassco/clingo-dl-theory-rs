@@ -12,9 +12,6 @@ repository = "https://github.com/potassco/clingo-dl-sys"
 # documentation = "https://docs.rs/clingo-dl-sys"
 readme = "README.md"
 
-# [features]
-# static-linking = []
-
 [lib]
 name = "clingo_dl_sys"
 path = "lib.rs"
@@ -23,6 +20,5 @@ path = "lib.rs"
 libc = "0.2"
 clingo-sys = "=0.7.2"
 
-[build-dependencies]
-cmake = "0.1"
-bindgen = "0.68"
+# [build-dependencies]
+# bindgen = "0.68"
